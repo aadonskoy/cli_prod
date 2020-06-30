@@ -9,11 +9,12 @@ type ProductsCollection = Vec<Product>;
 #[derive(Debug)]
 pub struct Products {
     pub collection: ProductsCollection,
+    last_index: usize,
 }
 
 impl Products {
     pub fn new() -> Products {
-        Products { collection: ProductsCollection::new() }
+        Products { collection: ProductsCollection::new(), last_index: 0 }
     }
 
     pub fn list_products(&self) {
@@ -21,8 +22,9 @@ impl Products {
     }
 
     pub fn add_product(&mut self) {
-        let index = self.collection.len();
+        let index = self.last_index + 1;
         self.collection.push(Product { id: index, name: "test".to_string() });
+        self.last_index = index;
     }
 
     pub fn find_by_index(&self, index: usize) {
