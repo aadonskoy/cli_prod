@@ -1,49 +1,5 @@
-#[derive(Debug)]
-struct Product {
-    id: usize,
-    name: String,
-}
-
-type ProductsCollection = Vec<Product>;
-
-#[derive(Debug)]
-struct Products {
-    collection: ProductsCollection,
-}
-
-impl Products {
-    fn new() -> Products {
-        Products { collection: ProductsCollection::new() }
-    }
-
-    fn list_products(&self) {
-        println!("{:?}", &self.collection);
-    }
-
-    fn add_product(&mut self) {
-        let index = self.collection.len();
-        self.collection.push(Product { id: index, name: "test".to_string() });
-    }
-
-    fn find_by_index(&self, index: usize) {
-        let result = &self.collection.iter()
-            .find(move |&product| product.id == index);
-        match result {
-            Some(product) => println!("Found: {:?}", product),
-            None => println!("Can't find product"),
-        };
-    }
-
-    fn find_by_text(&self, text: String) {
-        let result = &self.collection.iter()
-            .find(|&product| product.name.contains(&text));
-        match result {
-            Some(product) => println!("Found: {:?}", product),
-            None => println!("Can't find product"),
-        };
-    }
-}
-
+mod product;
+use self::product::*;
 fn main() {
     let mut products: Products = Products::new();
     commands_list();
@@ -51,7 +7,7 @@ fn main() {
     user_main_commands(&mut products);
 }
 
-fn user_main_commands(mut products: &mut Products) {
+fn user_main_commands(products: &mut Products) {
     loop {
         match read_number_input() {
           1 => products.add_product(),
