@@ -10,20 +10,20 @@ fn main() {
 fn user_main_commands(products: &mut Products) {
     loop {
         match read_number_input() {
-          1 => products.add_product(),
-          2 => user_search_commands(&products),
-          5 => products.list_products(),
-          3 => {
-                println!("Please enter id for deleting product");
-                let id = read_number_input();
-                if id != 0 {
-                    products.delete_by_id(id)
-                } else {
-                    println!("Isn't a correct id");
-                }
-            },
-          6 => break,
-          _ => (),
+            1 => products.add_product(),
+            2 => user_search_commands(&products),
+            5 => products.list_products(),
+            3 => {
+                    println!("Please enter id for deleting product");
+                    let id = read_number_input();
+                    if id != 0 {
+                        products.delete_by_id(id)
+                    } else {
+                        println!("Isn't a correct id");
+                    }
+                },
+            6 => break,
+            _ => (),
         };
         println!("---------");
         commands_list();
