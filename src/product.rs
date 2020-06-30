@@ -29,7 +29,7 @@ impl Products {
 
     pub fn find_by_index(&self, index: usize) {
         let result = &self.collection.iter()
-            .find(move |&product| product.id == index);
+            .find(|&product| product.id == index);
         match result {
             Some(product) => println!("Found: {:?}", product),
             None => println!("Can't find product"),
@@ -43,5 +43,9 @@ impl Products {
             Some(product) => println!("Found: {:?}", product),
             None => println!("Can't find product"),
         };
+    }
+    pub fn delete_by_id(&mut self, id: usize) {
+        println!("Deleting by id: {}", id);
+        self.collection.retain(|product| product.id != id);
     }
 }
