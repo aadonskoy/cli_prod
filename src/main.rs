@@ -10,8 +10,12 @@ fn main() {
 fn user_main_commands(products: &mut Products) {
     loop {
         match read_number_input() {
-            1 => products.add_product(),
-            2 => user_search_commands(&products),
+            1 => {
+                println!("Please enter a name for a new product:");
+                products.add_product(read_string_input());
+            },
+            2 => user_search_commands(products),
+            4 => user_update_commands(products),
             5 => products.list_products(),
             3 => {
                     println!("Please enter id for deleting product");
@@ -35,8 +39,8 @@ fn user_search_commands(products: &Products) {
         println!("Find by:\n1. Index\n2. Text\n3. Exit to main");
 
         match read_number_input() {
-            1 => find_by_index(&products),
-            2 => find_by_text(&products),
+            1 => find_by_index(products),
+            2 => find_by_text(products),
             3 => break,
             _ => (),
         }
@@ -45,14 +49,40 @@ fn user_search_commands(products: &Products) {
     }
 }
 
+fn user_update_commands(products: &mut Products) {
+    loop {
+        println!("Enter id for update:");
+        let id = read_number_input();
+
+        if id != 0 {
+            println!("Enter new name:");
+            match products.update(id, read_string_input()) {
+                Ok(()) => {
+                    println!("Updated.");
+                    break;
+                },
+                Err(err) => println!("{:?}", err),
+            }
+        } else {
+            println!("Incorrect id.");
+        }
+    }
+}
+
 fn find_by_index(products: &Products) {
     println!("Please enter id:");
-    products.find_by_index(read_number_input());
+    match products.find_by_index(read_number_input()) {
+        Some(product) => println!("Found product {:?}", product),
+        None => println!("can't find a product with given id"),
+    }
 }
 
 fn find_by_text(products: &Products) {
     println!("Please enter text:");
-    products.find_by_text(read_string_input());
+    match products.find_by_text(read_string_input()) {
+        Some(product) => println!("Found product {:?}", product),
+        None => println!("can't find a product with given text in the name"),
+    }
 }
 
 fn read_string_input() -> String {
